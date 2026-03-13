@@ -165,22 +165,9 @@ o
 
 ---
 
-# Estructura del proyecto
-
-Ejemplo simple:
-
-```
-selenium-tests/
-│
-├── loginTest.py
-├── README.md
-```
-
----
-
 # Ejemplo de prueba
 
-El archivo `loginTest.py` contiene una prueba automatizada de login.
+El archivo `test_login.py` contiene una prueba automatizada de login.
 
 Ejemplo de interacción con Selenium:
 

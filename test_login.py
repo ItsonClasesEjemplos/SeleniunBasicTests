@@ -64,4 +64,4 @@ class loginTest(unittest.TestCase):
 # Esto es importante no olvidarlo ya que es lo que ejecuta las pruebas en si,
 # si lo omites solo tienes una clase.
 if(__name__=="__main__"):
-    unittest.main(testRunner=HTMLTestRunner(output='./'))
+    unittest.main(testRunner=HTMLTestRunner(output='Login'))

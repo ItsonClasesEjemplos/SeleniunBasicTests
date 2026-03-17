@@ -11,8 +11,6 @@ class addPIMTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
         self.driver.implicitly_wait(10)
-
-    def test_addPIM(self):
         driver = self.driver
         driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
         # login
@@ -26,13 +24,15 @@ class addPIMTest(unittest.TestCase):
         # Se dirige a la seccion de PIM
         pimButton = driver.find_element(By.XPATH, "//a[contains(@href,'viewPimModule')]")
         pimButton.click()
-
+        
         # Busca con XPath el boton de añadir y le da click
         driver.find_element(
         By.XPATH,
             "//button[contains(.,'Add')]"
         ).click()
 
+    def test_addPIM(self):
+        driver = self.driver
         firstName = "Brianda"
         lastName = "Campoy"
 
@@ -46,7 +46,7 @@ class addPIMTest(unittest.TestCase):
         # Busca el boton de submit y le da click
         driver.find_element(By.XPATH, "//button[@type='submit']").click()
 
-        WebDriverWait(driver,10).until(
+        WebDriverWait(driver,15).until(
             EC.url_contains("/viewPersonalDetails")
         )
 
@@ -58,26 +58,29 @@ class addPIMTest(unittest.TestCase):
 
     def test_addPIMNoValues(self):
         driver = self.driver
-        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
-        usernameInput = driver.find_element(By.NAME, "username")
-        usernameInput.send_keys("Admin")
-        passwordInput = driver.find_element(By.NAME, "password")
-        passwordInput.send_keys("admin123")
-        passwordInput.submit()
-        WebDriverWait(driver, 10).until(EC.url_contains("/dashboard"))
-
-        pimButton = driver.find_element(By.XPATH, "//a[contains(@href,'viewPimModule')]")
-        pimButton.click()
-
-        driver.find_element(
-        By.XPATH,
-            "//button[contains(.,'Add')]"
-        ).click()
-
         driver.find_element(By.XPATH, "//button[@type='submit']").click()
 
         # Al haber fallado el formulario el navegador debe permanecer en la misma pagina
         self.assertIn("/addEmployee", driver.current_url)     
+
+    def test_addPIMWithLoginDetails(self):
+        driver = self.driver
+        firstName = "Brianda"
+        lastName = "Campoy"
+
+        # Ya en el formulario busca los inputs e inserta los datos
+        firstNameInput = driver.find_element(By.NAME, "firstName")
+        firstNameInput.send_keys(firstName)
+        
+        lastNameInput = driver.find_element(By.NAME, "lastName")
+        lastNameInput.send_keys(lastName)
+
+        checkbox = driver.find_element(By.XPATH, "//*[@id='app']/div[1]/div[2]/div[2]/div/div/form/div[1]/div[2]/div[2]/div/label")
+        if not checkbox.is_selected():
+            checkbox.click()
+        
+        # Busca el boton de submit y le da click
+        driver.find_element(By.XPATH, "//button[@type='submit']").click()
 
     def tearDown(self):
         self.driver.quit()
